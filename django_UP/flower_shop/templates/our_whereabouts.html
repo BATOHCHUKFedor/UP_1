@@ -15,7 +15,15 @@
             --shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
         .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
         header { background: var(--white); border-bottom: 1px solid #f0e0dc; padding: 14px 0; }
         .header-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
@@ -29,7 +37,11 @@
         .dropdown-menu a { display: block; padding: 8px 16px; color: var(--text); border-radius: 0; }
         .dropdown-menu a:hover { background: var(--rose-light); }
         .active { color: var(--rose) !important; background: var(--rose-light); }
-        main { padding: 36px 0; flex: 1;}
+        main {
+            padding: 36px 0;
+            flex: 1;
+            width: 100%;
+        }
         .content-box { background: var(--white); border-radius: 16px; padding: 32px; box-shadow: var(--shadow); }
         h1 { font-size: 26px; margin-bottom: 16px; }
         .map-placeholder {
@@ -43,30 +55,37 @@
             font-size: 16px;
             margin-top: 16px;
         }
-        footer { background: var(--text); color: #c0b0b0; text-align: center; padding: 20px 0; margin-top: 60px; font-size: 14px; }
+        footer {
+            background: var(--text);
+            color: #c0b0b0;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 0;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
     <header>
         <div class="container header-inner">
-            <a href="/main/" class="logo">Бутон</a>
+            <a href="{% url 'main_view' %}" class="logo">Бутон</a>
             <nav>
-                <a href="/main/">Главная</a>
+                <a href="{% url 'main_view' %}">Главная</a>
                 <div class="dropdown active">
                     <span>О компании</span>
                     <div class="dropdown-menu">
-                        <a href="/contacts/">Контакты</a>
-                        <a href="/our_whereabouts/" class="active">Как нас найти</a>
+                        <a href="{% url 'contacts_view' %}">Контакты</a>
+                        <a href="{% url 'our_whereabouts_view' %}" class="active">Как нас найти</a>
                     </div>
                 </div>
                 <div class="dropdown">
                     <span>Товары</span>
                     <div class="dropdown-menu">
-                        <a href="/categories/">Категории</a>
-                        <a href="/all_products/">Все товары</a>
+                        <a href="{% url 'categories_view' %}">Категории</a>
+                        <a href="{% url 'all_products_view' %}">Все товары</a>
                     </div>
                 </div>
-                <a href="/cart/">Корзина</a>
+                <a href="{% url 'cart_view' %}">Корзина</a>
             </nav>
         </div>
     </header>

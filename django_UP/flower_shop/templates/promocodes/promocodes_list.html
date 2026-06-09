@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Контакты — Бутон</title>
+    <title>Промокоды — Бутон</title>
     <style>
         :root {
             --rose: #d4959b;
             --rose-light: #fce4e6;
+            --green-light: #e7f0e7;
             --bg: #fffaf7;
             --text: #3d2c2c;
             --text-light: #6b5d5d;
@@ -15,15 +16,7 @@
             --shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.5;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; display: flex; flex-direction: column; min-height: 100vh;}
         .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
         header { background: var(--white); border-bottom: 1px solid #f0e0dc; padding: 14px 0; }
         .header-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
@@ -36,15 +29,9 @@
         .dropdown:hover .dropdown-menu { display: block; }
         .dropdown-menu a { display: block; padding: 8px 16px; color: var(--text); border-radius: 0; }
         .dropdown-menu a:hover { background: var(--rose-light); }
-        .active { color: var(--rose) !important; background: var(--rose-light); }
-        main {
-            padding: 36px 0;
-            flex: 1;
-            width: 100%;
-        }
+        main { padding: 36px 0; flex: 1; width: 100%;}
         .content-box { background: var(--white); border-radius: 16px; padding: 32px; box-shadow: var(--shadow); }
         h1 { font-size: 26px; margin-bottom: 16px; }
-        h2 { font-size: 20px; margin: 24px 0 12px; }
         .btn {
             display: inline-block;
             padding: 10px 24px;
@@ -57,24 +44,26 @@
             cursor: pointer;
             font-size: 15px;
         }
-        .btn:hover { background: #c8858b; }
-        form { display: flex; flex-direction: column; gap: 12px; margin-top: 16px; }
-        input, textarea {
-            padding: 10px 14px;
-            border: 1px solid #e0cdcf;
-            border-radius: 30px;
-            font-size: 15px;
-            font-family: inherit;
+        .btn:hover { opacity: 0.9; }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-top: 16px; }
+        .promo-card {
+            background: var(--rose-light);
+            border-radius: 12px;
+            padding: 20px;
+            font-weight: 600;
+            color: var(--text);
+            transition: 0.2s;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
         }
-        textarea { border-radius: 12px; min-height: 80px; resize: vertical; }
-        footer {
-            background: var(--text);
-            color: #c0b0b0;
-            text-align: center;
-            padding: 20px 0;
-            margin-top: 0;
-            font-size: 14px;
-        }
+        .promo-card:hover { background: #f8d8dc; }
+        .promo-code { font-size: 18px; letter-spacing: 1px; }
+        .promo-discount { color: var(--rose); }
+        .promo-dates { font-size: 13px; font-weight: 400; color: var(--text-light); }
+        .card-actions { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+        .card-actions .btn { font-size: 14px; padding: 6px 14px; }
+        footer { background: var(--text); color: #c0b0b0; text-align: center; padding: 20px 0; margin-top: 0; font-size: 14px; }
     </style>
 </head>
 <body>
@@ -83,17 +72,17 @@
             <a href="{% url 'main_view' %}" class="logo">Бутон</a>
             <nav>
                 <a href="{% url 'main_view' %}">Главная</a>
-                <div class="dropdown active">
+                <div class="dropdown">
                     <span>О компании</span>
                     <div class="dropdown-menu">
-                        <a href="{% url 'contacts_view' %}" class="active">Контакты</a>
+                        <a href="{% url 'contacts_view' %}">Контакты</a>
                         <a href="{% url 'our_whereabouts_view' %}">Как нас найти</a>
                     </div>
                 </div>
                 <div class="dropdown">
                     <span>Товары</span>
                     <div class="dropdown-menu">
-                        <a href="{% url 'categories_view' %}">Категории</a>
+                        <a href="{% url 'categories_view' %}">Категории и коллекции</a>
                         <a href="{% url 'all_products_view' %}">Все товары</a>
                     </div>
                 </div>
@@ -103,18 +92,34 @@
     </header>
     <main class="container">
         <div class="content-box">
-            <h1>Контакты</h1>
-            <p>Телефон: +7 (999) 123-45-67</p>
-            <p>Email: hello@buton-flowers.ru</p>
-            <p>Адрес: г. Москва, ул. Цветочная, 15</p>
-            <p>Режим работы: ежедневно с 8:00 до 22:00</p>
-            <h2>Напишите нам</h2>
-            <form onsubmit="event.preventDefault(); alert('Сообщение отправлено (заглушка).');">
-                <input type="text" placeholder="Ваше имя" required>
-                <input type="email" placeholder="Email" required>
-                <textarea placeholder="Ваш вопрос"></textarea>
-                <button type="submit" class="btn">Отправить</button>
-            </form>
+            <h1>Промокоды</h1>
+            <a href="{% url 'promocodes_create' %}" class="btn" style="background: #8faa8f; margin-bottom: 16px;">+ Добавить промокод</a>
+
+            <div class="grid-3">
+                {% for promo in promocodes_list %}
+                <div class="promo-card">
+                    <div class="promo-code">🏷️ {{ promo.code }}</div>
+                    <div class="promo-discount">Скидка: {{ promo.discount_percent }}%</div>
+                    <div class="promo-dates">
+                        С {{ promo.valid_from|date:"d.m.Y" }} по {{ promo.valid_to|date:"d.m.Y" }}
+                    </div>
+                    <div style="font-size: 14px;">
+                        {% if promo.is_active %}
+                            ✅ Активен
+                        {% else %}
+                            ❌ Неактивен
+                        {% endif %}
+                    </div>
+                    <div class="card-actions">
+                        <a href="{% url 'promocodes_detail' promo.pk %}" class="btn" style="background: #6c8c6c;">Подробнее</a>
+                        <a href="{% url 'promocodes_update' promo.pk %}" class="btn" style="background: #e0b0b5;">Изменить</a>
+                        <a href="{% url 'promocodes_delete' promo.pk %}" class="btn" style="background: #c0392b;">Удалить</a>
+                    </div>
+                </div>
+                {% empty %}
+                    <p>Промокодов пока нет.</p>
+                {% endfor %}
+            </div>
         </div>
     </main>
     <footer>

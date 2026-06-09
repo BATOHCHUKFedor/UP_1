@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Контакты — Бутон</title>
+    <title>{{ supplier.name }} — Бутон</title>
     <style>
+        /* такие же стили, как в category_detail.html */
         :root {
             --rose: #d4959b;
             --rose-light: #fce4e6;
@@ -15,15 +16,7 @@
             --shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.5;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; display: flex; flex-direction: column; min-height: 100vh;}
         .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
         header { background: var(--white); border-bottom: 1px solid #f0e0dc; padding: 14px 0; }
         .header-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
@@ -36,15 +29,10 @@
         .dropdown:hover .dropdown-menu { display: block; }
         .dropdown-menu a { display: block; padding: 8px 16px; color: var(--text); border-radius: 0; }
         .dropdown-menu a:hover { background: var(--rose-light); }
-        .active { color: var(--rose) !important; background: var(--rose-light); }
-        main {
-            padding: 36px 0;
-            flex: 1;
-            width: 100%;
-        }
-        .content-box { background: var(--white); border-radius: 16px; padding: 32px; box-shadow: var(--shadow); }
-        h1 { font-size: 26px; margin-bottom: 16px; }
-        h2 { font-size: 20px; margin: 24px 0 12px; }
+        main { padding: 36px 0; flex: 1; width: 100%;}
+        .content-box { background: var(--white); border-radius: 16px; padding: 32px; box-shadow: var(--shadow); max-width: 600px; margin: 0 auto; }
+        h1 { font-size: 26px; margin-bottom: 20px; }
+        .detail-info p { margin: 8px 0; }
         .btn {
             display: inline-block;
             padding: 10px 24px;
@@ -57,24 +45,9 @@
             cursor: pointer;
             font-size: 15px;
         }
-        .btn:hover { background: #c8858b; }
-        form { display: flex; flex-direction: column; gap: 12px; margin-top: 16px; }
-        input, textarea {
-            padding: 10px 14px;
-            border: 1px solid #e0cdcf;
-            border-radius: 30px;
-            font-size: 15px;
-            font-family: inherit;
-        }
-        textarea { border-radius: 12px; min-height: 80px; resize: vertical; }
-        footer {
-            background: var(--text);
-            color: #c0b0b0;
-            text-align: center;
-            padding: 20px 0;
-            margin-top: 0;
-            font-size: 14px;
-        }
+        .btn:hover { opacity: 0.9; }
+        .btn-back { background: #8faa8f; }
+        footer { background: var(--text); color: #c0b0b0; text-align: center; padding: 20px 0; margin-top: 0; font-size: 14px; }
     </style>
 </head>
 <body>
@@ -83,17 +56,17 @@
             <a href="{% url 'main_view' %}" class="logo">Бутон</a>
             <nav>
                 <a href="{% url 'main_view' %}">Главная</a>
-                <div class="dropdown active">
+                <div class="dropdown">
                     <span>О компании</span>
                     <div class="dropdown-menu">
-                        <a href="{% url 'contacts_view' %}" class="active">Контакты</a>
+                        <a href="{% url 'contacts_view' %}">Контакты</a>
                         <a href="{% url 'our_whereabouts_view' %}">Как нас найти</a>
                     </div>
                 </div>
                 <div class="dropdown">
                     <span>Товары</span>
                     <div class="dropdown-menu">
-                        <a href="{% url 'categories_view' %}">Категории</a>
+                        <a href="{% url 'categories_view' %}">Категории и коллекции</a>
                         <a href="{% url 'all_products_view' %}">Все товары</a>
                     </div>
                 </div>
@@ -101,22 +74,21 @@
             </nav>
         </div>
     </header>
+
     <main class="container">
         <div class="content-box">
-            <h1>Контакты</h1>
-            <p>Телефон: +7 (999) 123-45-67</p>
-            <p>Email: hello@buton-flowers.ru</p>
-            <p>Адрес: г. Москва, ул. Цветочная, 15</p>
-            <p>Режим работы: ежедневно с 8:00 до 22:00</p>
-            <h2>Напишите нам</h2>
-            <form onsubmit="event.preventDefault(); alert('Сообщение отправлено (заглушка).');">
-                <input type="text" placeholder="Ваше имя" required>
-                <input type="email" placeholder="Email" required>
-                <textarea placeholder="Ваш вопрос"></textarea>
-                <button type="submit" class="btn">Отправить</button>
-            </form>
+            <h1>{{ supplier.name }}</h1>
+            <div class="detail-info">
+                <p><strong>Контактное лицо:</strong> {{ supplier.contact_person|default:"—" }}</p>
+                <p><strong>Телефон:</strong> {{ supplier.phone }}</p>
+                <p><strong>Email:</strong> {{ supplier.email|default:"—" }}</p>
+                <p><strong>Адрес:</strong> {{ supplier.address|default:"—" }}</p>
+            </div>
+            <br>
+            <a href="{% url 'suppliers_list' %}" class="btn btn-back">← Вернуться к списку поставщиков</a>
         </div>
     </main>
+
     <footer>
         <div class="container">&copy; 2026 Бутон. Свежие цветы с доставкой.</div>
     </footer>

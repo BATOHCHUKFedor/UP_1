@@ -22,6 +22,9 @@
             background: var(--bg);
             color: var(--text);
             line-height: 1.5;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
         .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
         header {
@@ -76,7 +79,11 @@
         }
         .dropdown-menu a:hover { background: var(--rose-light); }
         .active { color: var(--rose) !important; background: var(--rose-light); }
-        main { padding: 36px 0; }
+        main {
+            padding: 36px 0;
+            flex: 1;
+            width: 100%;
+        }
         .content-box {
             background: var(--white);
             border-radius: 16px;
@@ -133,7 +140,7 @@
             color: #c0b0b0;
             text-align: center;
             padding: 20px 0;
-            margin-top: 40px;
+            margin-top: 0;
             font-size: 14px;
         }
     </style>
@@ -141,24 +148,24 @@
 <body>
     <header>
         <div class="container header-inner">
-            <a href="/main/" class="logo">Бутон</a>
+            <a href="{% url 'main_view' %}" class="logo">Бутон</a>
             <nav>
-                <a href="/main/" class="active">Главная</a>
+                <a href="{% url 'main_view' %}" class="active">Главная</a>
                 <div class="dropdown">
                     <span>О компании</span>
                     <div class="dropdown-menu">
-                        <a href="/contacts/">Контакты</a>
-                        <a href="/our_whereabouts/">Как нас найти</a>
+                        <a href="{% url 'contacts_view' %}">Контакты</a>
+                        <a href="{% url 'our_whereabouts_view' %}">Как нас найти</a>
                     </div>
                 </div>
                 <div class="dropdown">
                     <span>Товары</span>
                     <div class="dropdown-menu">
-                        <a href="/categories/">Категории</a>
-                        <a href="/all_products/">Все товары</a>
+                        <a href="{% url 'categories_view' %}">Категории и коллекции</a>
+                        <a href="{% url 'all_products_view' %}">Все товары</a>
                     </div>
                 </div>
-                <a href="/cart/">Корзина</a>
+                <a href="{% url 'cart_view' %}">Корзина</a>
             </nav>
         </div>
     </header>
@@ -167,29 +174,27 @@
             <h1>Добро пожаловать в Бутон</h1>
             <p>Свежие цветы с доставкой по городу. Собираем букеты вручную с 2018 года.</p>
             <div style="display:flex; gap:12px; margin-top:20px;">
-                <a href="/all_products/" class="btn">Смотреть каталог</a>
-                <a href="/contacts/" class="btn btn-outline">Контакты</a>
+                <a href="{% url 'all_products_view' %}" class="btn">Смотреть каталог</a>
+                <a href="{% url 'contacts_view' %}" class="btn btn-outline">Контакты</a>
+                <a href="{% url 'suppliers_list' %}" class="btn btn-outline">Поставщики</a>
+                <a href="{% url 'promocodes_list' %}" class="btn btn-outline">Промокоды</a>
             </div>
             <h2>Популярные букеты</h2>
             <div class="grid-3">
+                {% for flower in popular_flowers %}
                 <div class="card">
-                    <div class="card-img">Розы</div>
-                    <div class="card-title">Букет «Нежность»</div>
-                    <div class="card-price">4 500 руб.</div>
-                    <a href="/all_products/" class="btn" style="margin-top:8px;">В каталог</a>
+                    {% if flower.photo %}
+                        <img src="{{ flower.photo.url }}" alt="{{ flower.name }}" class="card-img" style="object-fit: cover;">
+                    {% else %}
+                        <div class="card-img">{{ flower.name|slice:":10" }}</div>
+                    {% endif %}
+                    <div class="card-title">{{ flower.name }}</div>
+                    <div class="card-price">{{ flower.price }} руб.</div>
+                    <a href="{% url 'all_products_view' %}" class="btn" style="margin-top:8px;">В каталог</a>
                 </div>
-                <div class="card">
-                    <div class="card-img">Тюльпаны</div>
-                    <div class="card-title">Тюльпаны «Весна»</div>
-                    <div class="card-price">3 200 руб.</div>
-                    <a href="/all_products/" class="btn" style="margin-top:8px;">В каталог</a>
-                </div>
-                <div class="card">
-                    <div class="card-img">Лаванда</div>
-                    <div class="card-title">Лавандовый букет</div>
-                    <div class="card-price">1 900 руб.</div>
-                    <a href="/all_products/" class="btn" style="margin-top:8px;">В каталог</a>
-                </div>
+                {% empty %}
+                    <p>Товары скоро появятся.</p>
+                {% endfor %}
             </div>
         </div>
     </main>

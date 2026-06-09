@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Категории — Бутон</title>
+    <title>Категории и коллекции — Бутон</title>
     <style>
         :root {
             --rose: #d4959b;
@@ -16,7 +16,15 @@
             --shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;          /* ← футер прижат */
+        }
         .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
         header { background: var(--white); border-bottom: 1px solid #f0e0dc; padding: 14px 0; }
         .header-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
@@ -30,9 +38,27 @@
         .dropdown-menu a { display: block; padding: 8px 16px; color: var(--text); border-radius: 0; }
         .dropdown-menu a:hover { background: var(--rose-light); }
         .active { color: var(--rose) !important; background: var(--rose-light); }
-        main { padding: 36px 0; }
+        main {
+            padding: 36px 0;
+            flex: 1;                   /* ← занимает всё пространство */
+            width: 100%;
+        }
         .content-box { background: var(--white); border-radius: 16px; padding: 32px; box-shadow: var(--shadow); }
         h1 { font-size: 26px; margin-bottom: 16px; }
+        h2 { font-size: 20px; margin: 24px 0 12px; }
+        .btn {
+            display: inline-block;
+            padding: 10px 24px;
+            border-radius: 30px;
+            background: var(--rose);
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            font-size: 15px;
+        }
+        .btn:hover { opacity: 0.9; }
         .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 16px; }
         .category-card {
             background: var(--rose-light);
@@ -42,46 +68,118 @@
             font-weight: 600;
             color: var(--text);
             transition: 0.2s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
-        .category-card a { text-decoration: none; color: inherit; display: block; }
         .category-card:hover { background: #f8d8dc; }
-        footer { background: var(--text); color: #c0b0b0; text-align: center; padding: 20px 0; margin-top: 220px; font-size: 14px; }
+        .card-actions { display: flex; gap: 8px; margin-top: 12px; justify-content: center; flex-wrap: wrap; }
+        .card-actions .btn { font-size: 14px; padding: 6px 14px; }
+
+        /* Фото коллекции – общие стили */
+        .collection-photo {
+            width: 100%;
+            height: 120px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, var(--rose-light), var(--green-light));
+            overflow: hidden;        /* чтобы object-fit не выходил за границы */
+        }
+        /* Если это img – делаем блочным и обрезаем */
+        img.collection-photo {
+            display: block;
+            object-fit: cover;
+        }
+        /* Заглушка, когда фото нет */
+        .collection-photo-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            color: var(--rose);
+        }
+
+        footer {
+            background: var(--text);
+            color: #c0b0b0;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 0;         
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
     <header>
         <div class="container header-inner">
-            <a href="/main/" class="logo">Бутон</a>
+            <a href="{% url 'main_view' %}" class="logo">Бутон</a>
             <nav>
-                <a href="/main/">Главная</a>
+                <a href="{% url 'main_view' %}">Главная</a>
                 <div class="dropdown">
                     <span>О компании</span>
                     <div class="dropdown-menu">
-                        <a href="/contacts/">Контакты</a>
-                        <a href="/our_whereabouts/">Как нас найти</a>
+                        <a href="{% url 'contacts_view' %}">Контакты</a>
+                        <a href="{% url 'our_whereabouts_view' %}">Как нас найти</a>
                     </div>
                 </div>
                 <div class="dropdown active">
                     <span>Товары</span>
                     <div class="dropdown-menu">
-                        <a href="/categories/" class="active">Категории</a>
-                        <a href="/all_products/">Все товары</a>
+                        <a href="{% url 'categories_view' %}" class="active">Категории</a>
+                        <a href="{% url 'all_products_view' %}">Все товары</a>
                     </div>
                 </div>
-                <a href="/cart/">Корзина</a>
+                <a href="{% url 'cart_view' %}">Корзина</a>
             </nav>
         </div>
     </header>
     <main class="container">
         <div class="content-box">
             <h1>Категории</h1>
+            <a href="{% url 'categories_create' %}" class="btn" style="background: #8faa8f; margin-bottom: 16px;">+ Добавить категорию</a>
             <div class="grid-3">
-                <div class="category-card"><a href="/all_products/">Розы</a></div>
-                <div class="category-card"><a href="/all_products/">Тюльпаны</a></div>
-                <div class="category-card"><a href="/all_products/">Пионы</a></div>
-                <div class="category-card"><a href="/all_products/">Лаванда</a></div>
-                <div class="category-card"><a href="/all_products/">Свадебные букеты</a></div>
-                <div class="category-card"><a href="/all_products/">Композиции</a></div>
+                {% for category in category_list %}
+                <div class="category-card">
+                    <div>
+                        <strong>{{ category.name }}</strong>
+                        {% if category.description %}
+                            <p style="font-weight: 400; margin-top: 6px;">{{ category.description|truncatewords:10 }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="card-actions">
+                        <a href="{% url 'categories_detail' category.pk %}" class="btn" style="background: #6c8c6c;">Подробнее</a>
+                        <a href="{% url 'categories_update' category.pk %}" class="btn" style="background: #e0b0b5;">Изменить</a>
+                        <a href="{% url 'categories_delete' category.pk %}" class="btn" style="background: #c0392b;">Удалить</a>
+                    </div>
+                </div>
+                {% empty %}
+                    <p>Категорий пока нет.</p>
+                {% endfor %}
+            </div>
+
+            <h2>Коллекции</h2>
+            <a href="{% url 'collections_create' %}" class="btn" style="background: #8faa8f; margin-bottom: 16px;">+ Добавить коллекцию</a>
+            <div class="grid-3">
+                {% for collection in collections_list %}
+                <div class="category-card">
+                    {% if collection.photo %}
+                        <img src="{{ collection.photo.url }}" alt="{{ collection.name }}" class="collection-photo">
+                    {% else %}
+                        <div class="collection-photo" style="display: flex; align-items: center; justify-content: center; font-size: 36px;">Фото нету</div>
+                    {% endif %}
+                    <strong>{{ collection.name }}</strong>
+                    {% if collection.description %}
+                        <p style="font-weight: 400; margin-top: 6px;">{{ collection.description|truncatewords:10 }}</p>
+                    {% endif %}
+                    <div class="card-actions">
+                        <a href="{% url 'collections_detail' collection.pk %}" class="btn" style="background: #6c8c6c;">Подробнее</a>
+                        <a href="{% url 'collections_update' collection.pk %}" class="btn" style="background: #e0b0b5;">Изменить</a>
+                        <a href="{% url 'collections_delete' collection.pk %}" class="btn" style="background: #c0392b;">Удалить</a>
+                    </div>
+                </div>
+                {% empty %}
+                    <p>Коллекций пока нет.</p>
+                {% endfor %}
             </div>
         </div>
     </main>
