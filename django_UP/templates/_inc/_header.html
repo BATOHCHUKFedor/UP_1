@@ -1,0 +1,23 @@
+<header>
+        <div class="container header-inner">
+            <a href="{% url 'main_view' %}" class="logo">Бутон</a>
+            <nav>
+                <a href="{% url 'main_view' %}" class="active">Главная</a>
+                <div class="dropdown">
+                    <span>О компании</span>
+                    <div class="dropdown-menu">
+                        <a href="{% url 'contacts_view' %}">Контакты</a>
+                        <a href="{% url 'our_whereabouts_view' %}">Как нас найти</a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <span>Товары</span>
+                    <div class="dropdown-menu">
+                        <a href="{% url 'categories_view' %}">Категории и коллекции</a>
+                        <a href="{% url 'all_products_view' %}">Все товары</a>
+                    </div>
+                </div>
+                <a href="{% url 'cart_view' %}">Корзина</a>
+            </nav>
+        </div>
+    </header>

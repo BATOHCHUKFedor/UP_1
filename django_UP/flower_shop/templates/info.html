@@ -1,66 +1,9 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Информация — Бутон</title>
-    <style>
-        :root {
-            --rose: #d4959b;
-            --rose-light: #fce4e6;
-            --bg: #fffaf7;
-            --text: #3d2c2c;
-            --text-light: #6b5d5d;
-            --white: #ffffff;
-            --shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; }
-        .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
-        header { background: var(--white); border-bottom: 1px solid #f0e0dc; padding: 14px 0; }
-        .header-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
-        .logo { font-size: 24px; font-weight: 700; color: var(--rose); text-decoration: none; }
-        nav { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
-        nav a, nav .dropdown { text-decoration: none; color: var(--text-light); font-weight: 500; padding: 6px 10px; border-radius: 6px; transition: 0.2s; font-size: 15px; display: inline-block; }
-        nav a:hover, nav .dropdown:hover { color: var(--rose); background: var(--rose-light); }
-        .dropdown { position: relative; cursor: pointer; }
-        .dropdown-menu { display: none; position: absolute; top: 100%; left: 0; background: var(--white); box-shadow: var(--shadow); border-radius: 8px; min-width: 160px; padding: 6px 0; z-index: 10; }
-        .dropdown:hover .dropdown-menu { display: block; }
-        .dropdown-menu a { display: block; padding: 8px 16px; color: var(--text); border-radius: 0; }
-        .dropdown-menu a:hover { background: var(--rose-light); }
-        .active { color: var(--rose) !important; background: var(--rose-light); }
-        main { padding: 36px 0; }
-        .content-box { background: var(--white); border-radius: 16px; padding: 32px; box-shadow: var(--shadow); }
-        h1 { font-size: 26px; margin-bottom: 16px; }
-        h2 { font-size: 20px; margin: 24px 0 12px; }
-        footer { background: var(--text); color: #c0b0b0; text-align: center; padding: 20px 0; margin-top: 40px; font-size: 14px; }
-    </style>
-</head>
-<body>
-    <header>
-        <div class="container header-inner">
-            <a href="/main/" class="logo">Бутон</a>
-            <nav>
-                <a href="/main/">Главная</a>
-                <div class="dropdown">
-                    <span>О компании</span>
-                    <div class="dropdown-menu">
-                        <a href="/contacts/">Контакты</a>
-                        <a href="/our_whereabouts/">Как нас найти</a>
-                    </div>
-                </div>
-                <div class="dropdown">
-                    <span>Товары</span>
-                    <div class="dropdown-menu">
-                        <a href="/categories/">Категории</a>
-                        <a href="/all_products/">Все товары</a>
-                    </div>
-                </div>
-                <a href="/cart/">Корзина</a>
-            </nav>
-        </div>
-    </header>
-    <main class="container">
+{% extends "base.html" %}
+{% load static %}
+{% block title_name %}
+О магазине
+{% endblock %}
+{% block content %}
         <div class="content-box">
             <h1>О магазине</h1>
             <p>Цветочный магазин «Бутон» работает с 2018 года. Мы доставляем свежие цветы по городу и области, собираем букеты любой сложности.</p>
@@ -70,9 +13,4 @@
             <p>Адрес: г. Москва, ул. Цветочная, 15</p>
             <p>Режим работы: ежедневно с 8:00 до 22:00</p>
         </div>
-    </main>
-    <footer>
-        <div class="container">&copy; 2026 Бутон. Свежие цветы с доставкой.</div>
-    </footer>
-</body>
-</html>
+{% endblock %}
