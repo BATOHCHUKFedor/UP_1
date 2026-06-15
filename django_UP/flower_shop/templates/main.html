@@ -10,8 +10,15 @@
             <div style="display:flex; gap:12px; margin-top:20px;">
                 <a href="{% url 'all_products_view' %}" class="btn">Смотреть каталог</a>
                 <a href="{% url 'contacts_view' %}" class="btn btn-outline">Контакты</a>
+
+                {% if perms.flower_shop.view_supplier %}
                 <a href="{% url 'suppliers_list' %}" class="btn btn-outline">Поставщики</a>
+                {% endif %}
+
+                {% if perms.flower_shop.view_promocode %}
                 <a href="{% url 'promocodes_list' %}" class="btn btn-outline">Промокоды</a>
+                {% endif %}
+                
             </div>
             <h2>Популярные букеты</h2>
             <div class="grid-3">

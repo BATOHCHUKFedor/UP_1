@@ -1,34 +1,56 @@
 {% extends "base.html" %}
 {% load static %}
+
 {% block title_name %}
 Все продукты
-{% endblock  %}
+{% endblock %}
+
 {% block content %}
-        <div class="content-box">
-            <h1>Все товары</h1>
-            <a href="{% url 'flowers_create' %}" class="btn" style="background: #8faa8f; margin-bottom: 16px;">+ Добавить новый цветок</a>
+<div class="content-box">
+    <h1>Все товары</h1>
 
-            <div class="grid-3">
-                {% for flower in flowers_list %}
-                <div class="card">
-                    {% if flower.photo %}
-                        <img src="{{ flower.photo.url }}" alt="{{ flower.name }}" class="card-img" style="object-fit: cover;">
-                    {% else %}
-                        <div class="card-img">{{ flower.name|slice:":10" }}</div>
-                    {% endif %}
-                    <div class="card-title">{{ flower.name }}</div>
-                    <div class="card-price">{{ flower.price }} руб.</div>
+    {% if perms.flower_shop.add_flowers %}
+    <a href="{% url 'flowers_create' %}" class="btn" style="background: #8faa8f; margin-bottom: 16px;">+ Добавить новый цветок</a>
+    {% endif %}
 
-                    <a href="{% url 'add_to_cart' flower.pk %}" class="btn" style="background: #6c8c6c; margin-bottom: 6px;">В корзину</a>
-                    <div class="card-actions">
-                        <a href="{% url 'flowers_detail' flower.pk %}" class="btn" style="background: #6c8c6c;">Подробнее</a>
-                        <a href="{% url 'flowers_update' flower.pk %}" class="btn" style="background: #e0b0b5;">Изменить</a>
-                        <a href="{% url 'flowers_delete' flower.pk %}" class="btn" style="background: #c0392b;">Удалить</a>
-                    </div>
-                </div>
-                {% empty %}
-                    <p>Товаров пока нет.</p>
-                {% endfor %}
+    <div class="grid-3">
+        {% for flower in flowers_list %}
+        <div class="card">
+            {% if flower.photo %}
+                <img src="{{ flower.photo.url }}" alt="{{ flower.name }}" class="card-img" style="object-fit: cover;">
+            {% else %}
+                <div class="card-img">{{ flower.name|slice:":10" }}</div>
+            {% endif %}
+            <div class="card-title">{{ flower.name }}</div>
+            <div class="card-price">{{ flower.price }} руб.</div>
+
+            {% if request.user.is_authenticated %}
+                <a href="{% url 'add_to_cart' flower.pk %}" class="btn" style="background: #6c8c6c; margin-bottom: 6px;">В корзину</a>
+            {% else %}
+                <a href="#" 
+                   class="btn disabled" 
+                   style="background: #6c8c6c; margin-bottom: 6px; opacity: 0.6; cursor: not-allowed;" 
+                   title="Сперва авторизуйтесь"
+                   onclick="return false;">
+                   В корзину
+                </a>
+            {% endif %}
+
+            <div class="card-actions">
+                <a href="{% url 'flowers_detail' flower.pk %}" class="btn" style="background: #6c8c6c;">Подробнее</a>
+
+                {% if perms.flower_shop.change_flowers %}
+                <a href="{% url 'flowers_update' flower.pk %}" class="btn" style="background: #e0b0b5;">Изменить</a>
+                {% endif %}
+
+                {% if perms.flower_shop.delete_flowers %}
+                <a href="{% url 'flowers_delete' flower.pk %}" class="btn" style="background: #c0392b;">Удалить</a>
+                {% endif %}
             </div>
         </div>
-{% endblock  %} 
+        {% empty %}
+            <p>Товаров пока нет.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

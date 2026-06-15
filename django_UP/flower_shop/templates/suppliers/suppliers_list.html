@@ -26,30 +26,39 @@
 {% endblock %}
 
 {% block content %}
-        <div class="content-box">
-            <h1>Поставщики</h1>
-            <a href="{% url 'suppliers_create' %}" class="btn" style="background: #8faa8f; margin-bottom: 16px;">+ Добавить поставщика</a>
+<div class="content-box">
+    <h1>Поставщики</h1>
 
-            <div class="grid-3">
-                {% for supplier in suppliers_list %}
-                <div class="supplier-card">
-                    <strong>{{ supplier.name }}</strong>
-                    {% if supplier.contact_person %}
-                        <p style="font-weight: 400;">Контакт: {{ supplier.contact_person }}</p>
-                    {% endif %}
-                    <p style="font-weight: 400;">{{ supplier.phone }}</p>
-                    {% if supplier.email %}
-                        <p style="font-weight: 400;">{{ supplier.email }}</p>
-                    {% endif %}
-                    <div class="card-actions">
-                        <a href="{% url 'suppliers_detail' supplier.pk %}" class="btn" style="background: #6c8c6c;">Подробнее</a>
-                        <a href="{% url 'suppliers_update' supplier.pk %}" class="btn" style="background: #e0b0b5;">Изменить</a>
-                        <a href="{% url 'suppliers_delete' supplier.pk %}" class="btn" style="background: #c0392b;">Удалить</a>
-                    </div>
-                </div>
-                {% empty %}
-                    <p>Поставщиков пока нет.</p>
-                {% endfor %}
+    {% if perms.flower_shop.add_supplier %}
+    <a href="{% url 'suppliers_create' %}" class="btn" style="background: #8faa8f; margin-bottom: 16px;">+ Добавить поставщика</a>
+    {% endif %}
+
+    <div class="grid-3">
+        {% for supplier in suppliers_list %}
+        <div class="supplier-card">
+            <strong>{{ supplier.name }}</strong>
+            {% if supplier.contact_person %}
+                <p style="font-weight: 400;">Контакт: {{ supplier.contact_person }}</p>
+            {% endif %}
+            <p style="font-weight: 400;">{{ supplier.phone }}</p>
+            {% if supplier.email %}
+                <p style="font-weight: 400;">{{ supplier.email }}</p>
+            {% endif %}
+            <div class="card-actions">
+                <a href="{% url 'suppliers_detail' supplier.pk %}" class="btn" style="background: #6c8c6c;">Подробнее</a>
+
+                {% if perms.flower_shop.change_supplier %}
+                <a href="{% url 'suppliers_update' supplier.pk %}" class="btn" style="background: #e0b0b5;">Изменить</a>
+                {% endif %}
+
+                {% if perms.flower_shop.delete_supplier %}
+                <a href="{% url 'suppliers_delete' supplier.pk %}" class="btn" style="background: #c0392b;">Удалить</a>
+                {% endif %}
             </div>
         </div>
+        {% empty %}
+            <p>Поставщиков пока нет.</p>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}

@@ -23,38 +23,49 @@
         .promo-code { font-size: 18px; letter-spacing: 1px; }
         .promo-discount { color: var(--rose); }
         .promo-dates { font-size: 13px; font-weight: 400; color: var(--text-light); }
+        .card-actions { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+        .card-actions .btn { font-size: 14px; padding: 6px 14px; }
     </style>
 {% endblock %}
 
 {% block content %}
-        <div class="content-box">
-            <h1>Промокоды</h1>
-            <a href="{% url 'promocodes_create' %}" class="btn" style="background: #8faa8f; margin-bottom: 16px;">+ Добавить промокод</a>
+<div class="content-box">
+    <h1>Промокоды</h1>
 
-            <div class="grid-3">
-                {% for promo in promocodes_list %}
-                <div class="promo-card">
-                    <div class="promo-code">🏷️ {{ promo.code }}</div>
-                    <div class="promo-discount">Скидка: {{ promo.discount_percent }}%</div>
-                    <div class="promo-dates">
-                        С {{ promo.valid_from|date:"d.m.Y" }} по {{ promo.valid_to|date:"d.m.Y" }}
-                    </div>
-                    <div style="font-size: 14px;">
-                        {% if promo.is_active %}
-                            ✅ Активен
-                        {% else %}
-                            ❌ Неактивен
-                        {% endif %}
-                    </div>
-                    <div class="card-actions">
-                        <a href="{% url 'promocodes_detail' promo.pk %}" class="btn" style="background: #6c8c6c;">Подробнее</a>
-                        <a href="{% url 'promocodes_update' promo.pk %}" class="btn" style="background: #e0b0b5;">Изменить</a>
-                        <a href="{% url 'promocodes_delete' promo.pk %}" class="btn" style="background: #c0392b;">Удалить</a>
-                    </div>
-                </div>
-                {% empty %}
-                    <p>Промокодов пока нет.</p>
-                {% endfor %}
+    {% if perms.flower_shop.add_promocode %}
+    <a href="{% url 'promocodes_create' %}" class="btn" style="background: #8faa8f; margin-bottom: 16px;">+ Добавить промокод</a>
+    {% endif %}
+
+    <div class="grid-3">
+        {% for promo in promocodes_list %}
+        <div class="promo-card">
+            <div class="promo-code">🏷️ {{ promo.code }}</div>
+            <div class="promo-discount">Скидка: {{ promo.discount_percent }}%</div>
+            <div class="promo-dates">
+                С {{ promo.valid_from|date:"d.m.Y" }} по {{ promo.valid_to|date:"d.m.Y" }}
+            </div>
+            <div style="font-size: 14px;">
+                {% if promo.is_active %}
+                    ✅ Активен
+                {% else %}
+                    ❌ Неактивен
+                {% endif %}
+            </div>
+            <div class="card-actions">
+                <a href="{% url 'promocodes_detail' promo.pk %}" class="btn" style="background: #6c8c6c;">Подробнее</a>
+
+                {% if perms.flower_shop.change_promocode %}
+                <a href="{% url 'promocodes_update' promo.pk %}" class="btn" style="background: #e0b0b5;">Изменить</a>
+                {% endif %}
+
+                {% if perms.flower_shop.delete_promocode %}
+                <a href="{% url 'promocodes_delete' promo.pk %}" class="btn" style="background: #c0392b;">Удалить</a>
+                {% endif %}
             </div>
         </div>
+        {% empty %}
+            <p>Промокодов пока нет.</p>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}

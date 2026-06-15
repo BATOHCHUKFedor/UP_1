@@ -42,52 +42,72 @@
     </style>
 {% endblock %}
 {% block content %}
-        <div class="content-box">
-            <h1>Категории</h1>
-            <a href="{% url 'categories_create' %}" class="btn" style="background: #8faa8f; margin-bottom: 16px;">+ Добавить категорию</a>
-            <div class="grid-3">
-                {% for category in category_list %}
-                <div class="category-card">
-                    <div>
-                        <strong>{{ category.name }}</strong>
-                        {% if category.description %}
-                            <p style="font-weight: 400; margin-top: 6px;">{{ category.description|truncatewords:10 }}</p>
-                        {% endif %}
-                    </div>
-                    <div class="card-actions">
-                        <a href="{% url 'categories_detail' category.pk %}" class="btn" style="background: #6c8c6c;">Подробнее</a>
-                        <a href="{% url 'categories_update' category.pk %}" class="btn" style="background: #e0b0b5;">Изменить</a>
-                        <a href="{% url 'categories_delete' category.pk %}" class="btn" style="background: #c0392b;">Удалить</a>
-                    </div>
-                </div>
-                {% empty %}
-                    <p>Категорий пока нет.</p>
-                {% endfor %}
-            </div>
+<div class="content-box">
+    <h1>Категории</h1>
 
-            <h2>Коллекции</h2>
-            <a href="{% url 'collections_create' %}" class="btn" style="background: #8faa8f; margin-bottom: 16px;">+ Добавить коллекцию</a>
-            <div class="grid-3">
-                {% for collection in collections_list %}
-                <div class="category-card">
-                    {% if collection.photo %}
-                        <img src="{{ collection.photo.url }}" alt="{{ collection.name }}" class="collection-photo">
-                    {% else %}
-                        <div class="collection-photo" style="display: flex; align-items: center; justify-content: center; font-size: 36px;">Фото нету</div>
-                    {% endif %}
-                    <strong>{{ collection.name }}</strong>
-                    {% if collection.description %}
-                        <p style="font-weight: 400; margin-top: 6px;">{{ collection.description|truncatewords:10 }}</p>
-                    {% endif %}
-                    <div class="card-actions">
-                        <a href="{% url 'collections_detail' collection.pk %}" class="btn" style="background: #6c8c6c;">Подробнее</a>
-                        <a href="{% url 'collections_update' collection.pk %}" class="btn" style="background: #e0b0b5;">Изменить</a>
-                        <a href="{% url 'collections_delete' collection.pk %}" class="btn" style="background: #c0392b;">Удалить</a>
-                    </div>
-                </div>
-                {% empty %}
-                    <p>Коллекций пока нет.</p>
-                {% endfor %}
+    {% if perms.flower_shop.add_category %}
+    <a href="{% url 'categories_create' %}" class="btn" style="background: #8faa8f; margin-bottom: 16px;">+ Добавить категорию</a>
+    {% endif %}
+
+    <div class="grid-3">
+        {% for category in category_list %}
+        <div class="category-card">
+            <div>
+                <strong>{{ category.name }}</strong>
+                {% if category.description %}
+                    <p style="font-weight: 400; margin-top: 6px;">{{ category.description|truncatewords:10 }}</p>
+                {% endif %}
+            </div>
+            <div class="card-actions">
+                <a href="{% url 'categories_detail' category.pk %}" class="btn" style="background: #6c8c6c;">Подробнее</a>
+
+                {% if perms.flower_shop.change_category %}
+                <a href="{% url 'categories_update' category.pk %}" class="btn" style="background: #e0b0b5;">Изменить</a>
+                {% endif %}
+
+                {% if perms.flower_shop.delete_category %}
+                <a href="{% url 'categories_delete' category.pk %}" class="btn" style="background: #c0392b;">Удалить</a>
+                {% endif %}
             </div>
         </div>
+        {% empty %}
+            <p>Категорий пока нет.</p>
+        {% endfor %}
+    </div>
+
+    <h2>Коллекции</h2>
+
+    {% if perms.flower_shop.add_collection %}
+    <a href="{% url 'collections_create' %}" class="btn" style="background: #8faa8f; margin-bottom: 16px;">+ Добавить коллекцию</a>
+    {% endif %}
+
+    <div class="grid-3">
+        {% for collection in collections_list %}
+        <div class="category-card">
+            {% if collection.photo %}
+                <img src="{{ collection.photo.url }}" alt="{{ collection.name }}" class="collection-photo">
+            {% else %}
+                <div class="collection-photo" style="display: flex; align-items: center; justify-content: center; font-size: 36px;">Фото нет</div>
+            {% endif %}
+            <strong>{{ collection.name }}</strong>
+            {% if collection.description %}
+                <p style="font-weight: 400; margin-top: 6px;">{{ collection.description|truncatewords:10 }}</p>
+            {% endif %}
+            <div class="card-actions">
+                <a href="{% url 'collections_detail' collection.pk %}" class="btn" style="background: #6c8c6c;">Подробнее</a>
+
+                {% if perms.flower_shop.change_collection %}
+                <a href="{% url 'collections_update' collection.pk %}" class="btn" style="background: #e0b0b5;">Изменить</a>
+                {% endif %}
+
+                {% if perms.flower_shop.delete_collection %}
+                <a href="{% url 'collections_delete' collection.pk %}" class="btn" style="background: #c0392b;">Удалить</a>
+                {% endif %}
+            </div>
+        </div>
+        {% empty %}
+            <p>Коллекций пока нет.</p>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}

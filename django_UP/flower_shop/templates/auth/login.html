@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title_name %}
+Авторизация
+{% endblock %}
+
+{% block content %}
+<div class="content-box" style="max-width: 450px; margin: 0 auto;">
+    <h1>Авторизация</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn">Войти</button>
+    </form>
+    <div style="display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap;">
+        <a href="{% url 'registration_page' %}" class="btn btn-back">Зарегистрироваться</a>
+        <a href="{% url 'info_view' %}" class="btn btn-back">Назад</a>
+    </div>
+</div>
+{% endblock %}

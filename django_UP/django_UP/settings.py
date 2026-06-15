@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'flower_shop'
+    'flower_shop',
+    'flower_api',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -126,3 +128,9 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static")
 ]
+
+REST_FRAMEWORK = {
+    'DATETIME_FORMAT': '%Y-%m-%d %H:%M:%S.%f%z'
+}
+
+LOGIN_URL = '/login/'

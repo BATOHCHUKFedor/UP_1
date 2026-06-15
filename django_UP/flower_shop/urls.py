@@ -41,4 +41,8 @@ urlpatterns = [
     path('suppliers/create/', SupplierCreateView.as_view(), name="suppliers_create"),
     path('suppliers/<int:pk>/update', SupplierUpdateView.as_view(), name="suppliers_update"),
     path('suppliers/<int:pk>/delete', SupplierDeleteView.as_view(), name="suppliers_delete"),
+
+    path("login/",  login_user, name='login_page'),
+    path("registration/",  registration_user, name='registration_page'),
+    path("logout/",  logout_user, name='logout_page'),
 ]
