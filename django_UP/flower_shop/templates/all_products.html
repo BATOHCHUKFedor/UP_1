@@ -25,14 +25,19 @@
             <div class="card-price">{{ flower.price }} руб.</div>
 
             {% if request.user.is_authenticated %}
-                <a href="{% url 'add_to_cart' flower.pk %}" class="btn" style="background: #6c8c6c; margin-bottom: 6px;">В корзину</a>
+                <form action="{% url 'cart:cart_add' flower.pk %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <input type="hidden" name="count" value="1">
+                    <input type="hidden" name="reload" value="false">
+                    <button type="submit" class="btn" style="background: #6c8c6c; margin-bottom: 6px; width:100%;">В корзину</button>
+                </form>
             {% else %}
                 <a href="#" 
-                   class="btn disabled" 
-                   style="background: #6c8c6c; margin-bottom: 6px; opacity: 0.6; cursor: not-allowed;" 
-                   title="Сперва авторизуйтесь"
-                   onclick="return false;">
-                   В корзину
+                class="btn disabled" 
+                style="background: #6c8c6c; margin-bottom: 6px; opacity: 0.6; cursor: not-allowed;" 
+                title="Сперва авторизуйтесь"
+                onclick="return false;">
+                В корзину
                 </a>
             {% endif %}
 

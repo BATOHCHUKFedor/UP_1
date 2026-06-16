@@ -29,13 +29,6 @@ class FlowersForm(forms.ModelForm):
             'photo', 'is_exists', 'category', 'collection', 'supplier'
         ]
 
-
-class OrderForm(forms.ModelForm):
-    class Meta:
-        model = Order
-        fields = ['delivery_address', 'comment']
-
-
 class OrderItemForm(forms.ModelForm):
     class Meta:
         model = OrderItem

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title_name %}Мои заказы{% endblock %}
+
+{% block content %}
+<div class="content-box">
+    <h1>Мои заказы</h1>
+    {% if orders %}
+    <table>
+        <thead>
+            <tr><th>№ заказа</th><th>Дата</th><th>Сумма</th><th>Статус</th></tr>
+        </thead>
+        <tbody>
+        {% for order in orders %}
+        <tr>
+            <td>{{ order.pk }}</td>
+            <td>{{ order.created_at|date:"d.m.Y H:i" }}</td>
+            <td>{{ order.total_price }} руб.</td>
+            <td>{{ order.get_status_display }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>У вас пока нет заказов.</p>
+    {% endif %}
+    <a href="{% url 'main_view' %}" class="btn btn-outline">На главную</a>
+</div>
+{% endblock %}

@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'flower_shop',
     'flower_api',
-    'rest_framework'
+    'rest_framework',
+    'cart'
 ]
 
 MIDDLEWARE = [
@@ -134,3 +135,7 @@ REST_FRAMEWORK = {
 }
 
 LOGIN_URL = '/login/'
+
+SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
+
+CART_SESSION_ID = "cart_session"

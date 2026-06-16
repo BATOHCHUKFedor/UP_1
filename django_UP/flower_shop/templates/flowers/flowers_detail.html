@@ -21,6 +21,26 @@
             border-radius: 12px;
             background: linear-gradient(135deg, var(--rose-light), var(--green-light));
         }
+
+        .action-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 20px;
+        flex-wrap: wrap; 
+        gap: 12px;
+        }
+
+        .add-to-cart-form {
+            display: flex;
+            align-items: center;
+            gap: 8px; 
+            margin: 0;
+        }
+
+        .add-to-cart-form input[type="number"] {
+            width: 70px; 
+        }
     </style>
 {% endblock %}
 
@@ -53,6 +73,14 @@
                     <p><strong>Описание:</strong> {{ flowers.description|default:"—" }}</p>
                 </div>
             </div>
-            <a href="{% url 'all_products_view' %}" class="btn btn-back">← Вернуться к витрине</a>
-        </div>
+            <div class="action-bar">
+                <a href="{% url 'all_products_view' %}" class="btn btn-back">← Вернуться к витрине</a>
+                {% if user.is_authenticated %}
+                <form action="{% url 'cart:cart_add' flowers.pk %}" method="post" class="add-to-cart-form">
+                    {% csrf_token %}
+                    {{ form_cart }}
+                    <button type="submit" class="btn btn-success">Добавить в корзину</button>
+                </form>
+                {% endif %}
+            </div>
 {% endblock %}
