@@ -14,10 +14,9 @@ class Cart:
     def __iter__(self):
         product_ids = self.cart.keys()
         products = Flowers.objects.filter(pk__in=product_ids, is_exists=True)
-        cart_copy = self.cart.copy()
         for product in products:
-            cart_copy[str(product.pk)]['product'] = product
-        for item in cart_copy.values():
+            item = self.cart[str(product.pk)].copy()
+            item['product'] = product
             item['total_price'] = Decimal(item['price']) * int(item['count'])
             yield item
 

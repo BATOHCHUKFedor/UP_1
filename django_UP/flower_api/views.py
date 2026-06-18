@@ -53,6 +53,6 @@ class ReviewViewSet(viewsets.ModelViewSet):
 
 class PromoCodeViewSet(viewsets.ModelViewSet):
     queryset = PromoCode.objects.all()
-    serializer_class = PromoCode
+    serializer_class = PromoCodeSerializers
     permission_classes = [CustomPernission]
     pagination_class = PaginationPage
